@@ -1,7 +1,7 @@
-package com.sunqianwen.datacenter.controller.query;
+package com.mo.serialnumber.controller.query;
 
-import com.sunqianwen.datacenter.service.SerialNumberService;
-import com.sunqianwen.datacenter.util.ResultResponse;
+import com.mo.serialnumber.service.SerialNumberService;
+import com.mo.serialnumber.util.ResultResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

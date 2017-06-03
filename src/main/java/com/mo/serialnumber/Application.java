@@ -1,4 +1,4 @@
-package com.sunqianwen.datacenter;
+package com.mo.serialnumber;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.log4j.Logger;
@@ -19,7 +19,7 @@ import javax.sql.DataSource;
 @EnableAutoConfiguration
 @SpringBootApplication
 @ComponentScan
-@MapperScan("com.sunqianwen.datacenter.mapper")
+@MapperScan("com.mo.serialnumber.mapper")
 public class Application {
     private static Logger logger = Logger.getLogger(Application.class);
 

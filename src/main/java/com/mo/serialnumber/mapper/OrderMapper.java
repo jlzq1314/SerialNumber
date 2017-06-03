@@ -1,4 +1,4 @@
-package com.sunqianwen.datacenter.mapper;
+package com.mo.serialnumber.mapper;
 
 /**
  * Created by MoXingwang on 2017/6/3.

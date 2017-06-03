@@ -1,4 +1,4 @@
-package com.sunqianwen.datacenter.util;
+package com.mo.serialnumber.util;
 
 public class ResultResponse<T> {
 

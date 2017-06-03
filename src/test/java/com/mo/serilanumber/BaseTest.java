@@ -1,6 +1,6 @@
-package com.test.sunqianwen;
+package com.mo.serilanumber;
 
-import com.sunqianwen.datacenter.Application;
+import com.mo.serialnumber.Application;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.SpringApplicationConfiguration;

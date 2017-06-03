@@ -1,6 +1,6 @@
-package com.sunqianwen.datacenter.service;
+package com.mo.serialnumber.service;
 
-import com.sunqianwen.datacenter.mapper.OrderMapper;
+import com.mo.serialnumber.mapper.OrderMapper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

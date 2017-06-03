@@ -1,4 +1,4 @@
-package com.sunqianwen.datacenter.config;
+package com.mo.serialnumber.config;
 
 import com.mangofactory.swagger.configuration.SpringSwaggerConfig;
 import com.mangofactory.swagger.models.dto.ApiInfo;
