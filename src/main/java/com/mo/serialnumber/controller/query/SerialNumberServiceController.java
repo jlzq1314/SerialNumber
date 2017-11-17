@@ -25,7 +25,7 @@ public class SerialNumberServiceController {
     public ResultResponse<String> listDeviceInfos() {
         ResultResponse resultResponse = new ResultResponse();
 
-        resultResponse.setData(serialNumberService.nextOrderID2("SO"));
+        resultResponse.setData(serialNumberService.nextOrderID2(""));
 
         return resultResponse;
     }
