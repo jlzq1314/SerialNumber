@@ -1,7 +1,8 @@
 package com.mo.serialnumber.service;
 
 import com.mo.serialnumber.mapper.OrderMapper;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ import java.util.Calendar;
 @Service
 public class SerialNumberService {
 
-    private Logger logger = Logger.getLogger(SerialNumberService.class);
+    private static final Logger logger = LoggerFactory.getLogger(SerialNumberService.class);
 
     @Autowired
     private OrderMapper orderMapper;
@@ -25,6 +26,18 @@ public class SerialNumberService {
     private long currOrderSequence = 0;
     private long currTimestamp = 0;
 
+
+    public String nextOrderID2(String prefix) {
+        String result = SerialNumberGenerator.generate(prefix,"657588");
+
+        try {
+            orderMapper.insert(result);
+        }catch (Exception e){
+            logger.error("插入异常{}",result,e);
+        }
+
+        return result;
+    }
 
     /**
      * 初始化机器码
