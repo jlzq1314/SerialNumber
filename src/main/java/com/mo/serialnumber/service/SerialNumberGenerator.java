@@ -1,4 +1,4 @@
-package com.chinaredstar.ordercenter.test.serialnumber;
+package com.mo.serialnumber.service;
 
 import org.apache.commons.lang3.StringUtils;
 
