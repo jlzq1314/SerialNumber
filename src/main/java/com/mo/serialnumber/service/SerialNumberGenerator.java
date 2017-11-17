@@ -27,8 +27,8 @@ public class SerialNumberGenerator {
 
         String req = (year * 12 + month) + "" + (days + ThreadLocalRandom.current().nextLong(370, 630));
 
-        long random = ThreadLocalRandom.current().nextLong(0, 999999) ;
-        req +=  addZeroForNum(random + "",6);
+        long random = ThreadLocalRandom.current().nextLong(0, 9999999) ;
+        req +=  addZeroForNum(random + "",7);
 
         if(null != prefix){
             return prefix + req + userId;
