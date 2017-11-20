@@ -36,7 +36,7 @@ public class SerialNumberGenerator {
 
         String req = (year * 366 + days) + StringUtils.leftPad(minutes + "",3,"0");
 
-        req +=  StringUtils.leftPad(ThreadLocalRandom.current().nextLong(0, 9999999) + "",7,"0");
+        req +=  StringUtils.leftPad(ThreadLocalRandom.current().nextLong(0, 999999) + "",6,"0");
 
         return req + userId;
     }
