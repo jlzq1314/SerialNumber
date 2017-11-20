@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author MoXingwang on 2017-11-17.
  */
 public class SerialNumberGenerator {
-    private static final int USER_ID_LENGTH = 5;
+    private static final int USER_ID_LENGTH = 4;
 
     /**
      * 订单号生成
@@ -36,7 +36,7 @@ public class SerialNumberGenerator {
 
         String req = (year * 366 + days) + StringUtils.leftPad(minutes + "",3,"0");
 
-        req +=  StringUtils.leftPad(ThreadLocalRandom.current().nextLong(0, 999999) + "",6,"0");
+        req +=  StringUtils.leftPad(ThreadLocalRandom.current().nextLong(0, 9999999) + "",7,"0");
 
         return req + userId;
     }
