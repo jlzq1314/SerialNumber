@@ -11,7 +11,6 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class SerialNumberGenerator {
     private static final int USER_ID_LENGTH = 4;
-
     /**
      * 订单号生成
      * @param userId
@@ -50,7 +49,6 @@ public class SerialNumberGenerator {
     public static String generate(String prefix,String userId){
         return prefix + generate(userId);
     }
-
 
     /**
      * 推荐不再使用前缀
