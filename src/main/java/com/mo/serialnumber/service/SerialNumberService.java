@@ -33,7 +33,7 @@ public class SerialNumberService {
         try {
             orderMapper.insert(result);
         }catch (Exception e){
-            logger.error("插入异常{}",result,e);
+            logger.error("插入异常ID{},{}",Thread.currentThread().getId(),result,e);
         }
 
         return result;
