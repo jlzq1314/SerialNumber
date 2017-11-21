@@ -2,7 +2,11 @@ package com.mo.serialnumber.service;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.SecureRandom;
 import java.util.Calendar;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -35,6 +39,9 @@ public class SerialNumberGenerator {
 
         String req = (year * 366 + days) + StringUtils.leftPad(minutes + "",3,"0");
 
+        SecureRandom secureRandom = new SecureRandom();
+        secureRandom.nextInt();
+
         req +=  StringUtils.leftPad(ThreadLocalRandom.current().nextLong(0, 999999) + "",6,"0");
 
         return req + userId;
@@ -55,29 +62,30 @@ public class SerialNumberGenerator {
      * @param args
      */
     public static void main(String[] args) {
-        System.out.println(generate("11493677"));
-        System.out.println(generate("11493677"));
-        System.out.println(generate("11493677"));
-        System.out.println(generate("11493677"));
-        System.out.println(generate("","11493677"));
-        System.out.println(generate("","11493677"));
-        System.out.println(generate("","11493677"));
-        System.out.println(generate("","11493677"));
-        System.out.println(generate("","11493677"));
-        System.out.println(generate("","11493677"));
-        System.out.println(generate("SO","11493677"));
-        System.out.println(generate("SO","11493677"));
-        System.out.println(generate("SO","11493677"));
-        System.out.println(generate("SO","11493677"));
-        System.out.println(generate("SO","11493677"));
-        System.out.println(generate("SO","11493677"));
-        System.out.println(generate("SO","11493677"));
-        System.out.println(generate("SO","1111149300677"));
-        System.out.println(generate("SO","677"));
-        System.out.println(generate("SO",""));
-        System.out.println(generate("SO"," "));
-        System.out.println(generate("SO","   "));
-        System.out.println(generate("SO",null));
+        SecureRandom secureRandom = new SecureRandom();
+//        System.out.println(secureRandom.nextInt());;
+//        System.out.println(secureRandom.nextInt());;
+
+        try {
+            SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
+            random.nextInt();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchProviderException e) {
+            e.printStackTrace();
+        }
+
+
+        Random random = new Random(10);
+        Random random2 = new Random(10);
+
+        for (int i = 0; i < 20; i++) {
+            System.out.println(random.nextInt());
+        }
+        System.out.println("11111111111111111111");
+        for (int i = 0; i < 20; i++) {
+            System.out.println(random2.nextInt());
+        }
     }
 
 }

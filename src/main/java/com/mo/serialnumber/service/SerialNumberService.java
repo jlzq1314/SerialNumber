@@ -31,6 +31,7 @@ public class SerialNumberService {
         String result = SerialNumberGenerator.generate(prefix,"657588");
 
         try {
+//            orderMapper.insert(Thread.currentThread().getId() + "-" + result);
             orderMapper.insert(result);
         }catch (Exception e){
             logger.error("插入异常ID{},{}",Thread.currentThread().getId(),result,e);
