@@ -1,26 +1,33 @@
 package com.mo.serialnumber.service;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.SecureRandom;
 import java.util.Calendar;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 订单号生成
  * @author MoXingwang on 2017-11-17.
  */
+@Service
 public class SerialNumberGeneratorRedis {
     private static final int USER_ID_LENGTH = 4;
+
+    @Autowired
+    RedisTemplate<String, String> redisTemplate;
+
+    private static final String ORDER_SERIAL_KEY = "trade:order:serial:";
+
     /**
      * 订单号生成
      * @param userId
      * @return
      */
-    public static String generate(String userId){
+    public String generate(String userId){
         if(StringUtils.isBlank(userId)){
             userId = ThreadLocalRandom.current().nextLong((int)Math.pow(10, USER_ID_LENGTH - 1), (int)Math.pow(10, USER_ID_LENGTH) - 1) + "";
         }else if(userId.length() < USER_ID_LENGTH){
@@ -39,10 +46,19 @@ public class SerialNumberGeneratorRedis {
 
         String req = (year * 366 + days) + StringUtils.leftPad(minutes + "",3,"0");
 
-        SecureRandom secureRandom = new SecureRandom();
-        secureRandom.nextInt();
-
-        req +=  StringUtils.leftPad(ThreadLocalRandom.current().nextLong(0, 999999) + "",6,"0");
+        try{
+            String redisKey = ORDER_SERIAL_KEY + days + hour;
+            long cacheCount = redisTemplate.opsForValue().increment(redisKey, 1);
+            redisTemplate.expire(redisKey, 1, TimeUnit.HOURS);
+            if(cacheCount>999999){
+                String tempCount = cacheCount+"";
+                req += tempCount.substring(tempCount.length()-6,tempCount.length());
+            }else {
+                req +=  StringUtils.leftPad(cacheCount + "",6,"0");
+            }
+        }catch (Exception e){
+            req +=  StringUtils.leftPad(ThreadLocalRandom.current().nextLong(0, 999999) + "",6,"0");
+        }
 
         return req + userId;
     }
@@ -53,39 +69,8 @@ public class SerialNumberGeneratorRedis {
      * @param userId
      * @return
      */
-    public static String generate(String prefix,String userId){
+    public String generate(String prefix,String userId){
         return prefix + generate(userId);
-    }
-
-    /**
-     * 推荐不再使用前缀
-     * @param args
-     */
-    public static void main(String[] args) {
-        SecureRandom secureRandom = new SecureRandom();
-//        System.out.println(secureRandom.nextInt());;
-//        System.out.println(secureRandom.nextInt());;
-
-        try {
-            SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
-            random.nextInt();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchProviderException e) {
-            e.printStackTrace();
-        }
-
-
-        Random random = new Random(10);
-        Random random2 = new Random(10);
-
-        for (int i = 0; i < 20; i++) {
-            System.out.println(random.nextInt());
-        }
-        System.out.println("11111111111111111111");
-        for (int i = 0; i < 20; i++) {
-            System.out.println(random2.nextInt());
-        }
     }
 
 }

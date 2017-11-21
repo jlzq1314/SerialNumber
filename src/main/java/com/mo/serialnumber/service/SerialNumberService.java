@@ -20,6 +20,8 @@ public class SerialNumberService {
 
     @Autowired
     private OrderMapper orderMapper;
+    @Autowired
+    private SerialNumberGeneratorRedis serialNumberGeneratorRedis;
 
 
     private int serverID = 0;
@@ -28,7 +30,8 @@ public class SerialNumberService {
 
 
     public String nextOrderID2(String prefix) {
-        String result = SerialNumberGenerator.generate(prefix,"657588");
+//        String result = SerialNumberGenerator.generate(prefix,"657588");
+        String result = serialNumberGeneratorRedis.generate(prefix,"657588");
 
         try {
 //            orderMapper.insert(Thread.currentThread().getId() + "-" + result);
