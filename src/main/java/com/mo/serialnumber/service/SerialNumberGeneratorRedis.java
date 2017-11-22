@@ -51,6 +51,7 @@ public class SerialNumberGeneratorRedis {
             long cacheCount = redisTemplate.opsForValue().increment(redisKey, 1);
             redisTemplate.expire(redisKey, 1, TimeUnit.HOURS);
             if(cacheCount>999999){
+                redisTemplate.delete(redisKey);
                 String tempCount = cacheCount+"";
                 req += tempCount.substring(tempCount.length()-6,tempCount.length());
             }else {
