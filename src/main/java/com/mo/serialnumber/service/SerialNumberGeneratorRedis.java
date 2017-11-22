@@ -40,25 +40,38 @@ public class SerialNumberGeneratorRedis {
         int year = can.get(Calendar.YEAR) - 2017;
         int days = can.get(Calendar.DAY_OF_YEAR);
         int hour = can.get(Calendar.HOUR_OF_DAY);
+
         int min = can.get(Calendar.MINUTE);
 
-        int minutes = (hour - 8 < 0 ? 0 : hour - 8) * 60 + min;
+        int minutes = hour - 8 < 0 ? hour : ((hour - 8) * 60 + min + 8);
 
-        String req = (year * 366 + days) + StringUtils.leftPad(minutes + "",3,"0");
+        String req = (year * 366 + days) + StringUtils.leftPad(minutes + "", 3, "0");
 
-        try{
+        try {
             String redisKey = ORDER_SERIAL_KEY + days + hour;
-            long cacheCount = redisTemplate.opsForValue().increment(redisKey, 1);
-            redisTemplate.expire(redisKey, 1, TimeUnit.HOURS);
-            if(cacheCount>999999){
-                redisTemplate.delete(redisKey);
-                String tempCount = cacheCount+"";
-                req += tempCount.substring(tempCount.length()-6,tempCount.length());
-            }else {
-                req +=  StringUtils.leftPad(cacheCount + "",6,"0");
+
+            if(hour >= 8){
+                redisKey += (min - min%5);
             }
-        }catch (Exception e){
-            req +=  StringUtils.leftPad(ThreadLocalRandom.current().nextLong(0, 999999) + "",6,"0");
+
+            long cacheCount = redisTemplate.opsForValue().increment(redisKey, 1);
+
+            if(hour < 8){
+                redisTemplate.expire(redisKey, 1, TimeUnit.HOURS);
+            }else {
+                redisTemplate.expire(redisKey, 5, TimeUnit.MINUTES);
+            }
+
+            if (cacheCount > 999999) {
+                redisTemplate.delete(redisKey);
+                String tempCount = cacheCount + "";
+                req += tempCount.substring(tempCount.length() - 6, tempCount.length());
+            } else {
+                req += StringUtils.leftPad(cacheCount + "", 6, "0");
+            }
+        } catch (Exception e) {
+//            logger.error("订单号生成失败切换到随机数{},{}",req,userId,e);
+            req += StringUtils.leftPad(ThreadLocalRandom.current().nextLong(0, 999999) + "", 6, "0");
         }
 
         return req + userId;
